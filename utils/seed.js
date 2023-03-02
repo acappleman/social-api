@@ -21,7 +21,8 @@ connection.once('open', async () => {
 
     const username = getRandomName();
     const email = `${username}@test.com`;
-    const thoughts = await getRandomThoughts(20);
+    const thoughtResults = getRandomThoughts(10);
+    const thoughts = await Thought.collection.insertMany(thoughtResults);
     const friends = [];
 
     users.push({

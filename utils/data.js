@@ -1,5 +1,3 @@
-import { Thought } from '../models';
-
 const usernames = [
   'acappleman',
   'mark',
@@ -67,12 +65,11 @@ const getRandomReactions = () => {
   return {
     reactionBody: `${getRandomArrItem(thoughts)}`,
     username: getRandomName(),
-  }
+  };
 }
   
-
-// Function to generate random assignments that we can add to student object.
-const getRandomThoughts = async (int) => {
+// Function to generate random thoughts that we can add to user object.
+const getRandomThoughts = (int) => {
   const results = [];
   for (let i = 0; i < int; i++) {
     results.push({
@@ -81,9 +78,7 @@ const getRandomThoughts = async (int) => {
       reactions: getRandomReactions(),
     });
   }
-  const thoughts = Thought.collection.insertMany(results);
-  return thoughts;
+  return results;
 };
 
-// Export the functions for use in seed.js
 export default { getRandomName, getRandomThoughts };
