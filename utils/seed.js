@@ -1,6 +1,6 @@
 const connection = require('../config/connection');
 const { Thought, User } = require('../models');
-const { getRandomName, getRandomThoughts } = require('./data').default;
+const { getRandomName, getRandomThoughts } = require('./data');
 
 connection.on('error', (err) => err);
 
@@ -15,14 +15,24 @@ connection.once('open', async () => {
 
   // Create empty array to hold the students
   const users = [];
+  const usernames = {};
 
   // Loop 20 times -- add users to the users array
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < 20; i++) {
 
-    const username = getRandomName();
+    let username = getRandomName();
+    while (usernames[username]) {
+      username = getRandomName();
+    }
+    usernames[username] = true;
     const email = `${username}@test.com`;
-    const thoughtResults = getRandomThoughts(10);
-    const thoughts = await Thought.collection.insertMany(thoughtResults);
+    const thoughtResults = getRandomThoughts(username, 10);
+    const idList = await Thought.collection.insertMany(thoughtResults);
+    console.log(idList);
+    const thoughts = [];
+    for (key in idList['insertedIds']) {
+      thoughts.push(idList['insertedIds'][key]);
+    }
     const friends = [];
 
     users.push({

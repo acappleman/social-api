@@ -69,16 +69,16 @@ const getRandomReactions = () => {
 }
   
 // Function to generate random thoughts that we can add to user object.
-const getRandomThoughts = (int) => {
+const getRandomThoughts = (username, int) => {
   const results = [];
   for (let i = 0; i < int; i++) {
     results.push({
       thoughtText: getRandomArrItem(thoughts),
-      username: getRandomName(),
+      username: username,
       reactions: getRandomReactions(),
     });
   }
   return results;
 };
 
-export default { getRandomName, getRandomThoughts };
+module.exports = { getRandomName, getRandomThoughts };
